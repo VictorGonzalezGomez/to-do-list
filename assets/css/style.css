@@ -1,0 +1,17 @@
+
+.container{
+    display: flex; 
+    gap: 20rem;
+}
+.getAssingment{
+    width: 30rem;
+    margin-bottom:1rem ;
+}
+.numAssignment{
+    display: flex;
+    flex-direction: column;
+}
+ .assignments {
+    display: flex;
+    gap: 4rem;
+ }
