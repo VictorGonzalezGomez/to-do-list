@@ -1,17 +1,22 @@
-
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .container{
     display: flex; 
-    gap: 20rem;
+    gap: 13rem;
 }
-.getAssingment{
+.inputTask{
     width: 30rem;
     margin-bottom:1rem ;
 }
-.numAssignment{
+.numTask{
     display: flex;
     flex-direction: column;
 }
- .assignments {
+ .tasks {
     display: flex;
     gap: 4rem;
  }
