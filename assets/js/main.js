@@ -1,5 +1,20 @@
-/**********  importacion de datos **********/
-import { dataAssignments } from "./dataAssignment.js";
+let tasks = [
+  {
+    id: "1",
+    name: "ejemplo de tarea 1",
+    state: false,
+  },
+  {
+    id: "2",
+    name: " ejemplo de tarea 2",
+    state: false,
+  },
+  {
+    id: "3",
+    name: "ejemplo de tarea 3",
+    state: false,
+  },
+];
 /**********  variables globales **********/
 const buttonAdd = document.getElementById("addAssingment");
 const containerAssignments = document.getElementById("assignmentsContainer");
@@ -7,62 +22,60 @@ const totalAssingment = document.getElementById("totalAssignmets");
 const totalFinishAssignments = document.getElementById("totalFinishAssignments");
 /**********  generar id **********/
 function idGenerator() {
-  return parseInt((Math.random() * new Date().getUTCMilliseconds()));
-} 
+  return parseInt(Math.random() * new Date().getUTCMilliseconds());
+}
+
 function deleteAssignment(id) {
-  // let deletedAssignments = document.getElementById(`${id}`)
-  // deletedAssignments.remove(deletedAssignments);
-  console.log(id);
- }
-/**********  crear plantilla a incertar en html **********/
-function renderAssignment(id, name) {
-  return  `<tr id="${id}" class="assignments" >
-  <th>${id}</th>
-  <th>${name} 
-    <input type="checkbox" name="" id="" value="first_checkbox">    
-    <button onclick="deleteAssignment(${id})"> x </button>
-  </th>
-</tr>`
+  const newTasks = tasks.filter((task) => task.id != id);
+  tasks = newTasks;
+  renderTasks();
+}
+function finishTask(id) {
+  tasks.map((task) => {
+    if (task.id == id) {
+      task.state = !task.state;
+      return;
+    }
+  });
+  renderTasks();
+}
+
+function renderTotalFinishTask() {
+  const totalFinishTask = tasks.filter((task) => (task.state == true));
+  totalFinishAssignments.innerHTML = `<th id="totalFinishAssignments">${totalFinishTask.length}</th>`;
 }
 /**********  crear funcion para tomar los elementos por default del arreglo y enviarlos a la funcion addAssignment **********/
-function getDataAssignments(data) {
-  data.map ((assingment) =>{
-    containerAssignments.innerHTML += renderAssignment (
-      assingment.id,
-      assingment.name
-    );
+function renderTasks() {
+  let html = "";
+  tasks.map((task) => {
+    html += `<tr class="assignments" >
+    <th>${task.id}</th>
+    <th>${task.name} 
+      <input type="checkbox" onclick="finishTask(${task.id})" ${
+      task.state ? `checked` : ""
+    } />    
+      <button onclick="deleteAssignment(${task.id})"> x </button>
+    </th>
+  </tr>`;
   });
+  containerAssignments.innerHTML = html;
+  renderTotalTasks();
+  renderTotalFinishTask();
 }
-getDataAssignments(dataAssignments);
-totalAssingmets(totalAssingment);
+renderTasks();
+
 /**********  crear funcion para insertar los nuevos elementos al arreglo **********/
-function newDataAssingment(id, name) {
-  const newAssingment = {id:id, name:name};
- dataAssignments.push(newAssingment);
- 
- containerAssignments.innerHTML += renderAssignment (newAssingment.id, newAssingment.name)
+function addTask() {
+  let nameTask = document.getElementById("nameAssignment").value;
+  const newtask = { id: idGenerator(), name: nameTask };
+  tasks.push(newtask);
+  renderTasks();
 }
 /**********  crear funcion para contar e insertar el total de tareas realizadas *********/
-function totalAssingmets(totalAssingment) {
-  totalAssingment.innerHTML = `<th id="totalAssignmets">${dataAssignments.length}</th>`;
+function renderTotalTasks() {
+  totalAssingment.innerHTML = `<th id="totalAssignmets">${tasks.length}</th>`;
 }
-/**********  crear funcion para contar e insertar el total de tareas **********/
-// function totalFinishAssignments (checkbox) {
-
-  
-// }
 /**********  escuchar el boton agregar y realizar la operacion de insertar la nueva tarea en html **********/
-buttonAdd.addEventListener("click", () =>{ 
-  let assingmentName = document.getElementById("nameAssignment").value;
-  newDataAssingment(idGenerator(), assingmentName);
-  totalAssingmets(totalAssingment);
+buttonAdd.addEventListener("click", () => {
+  addTask();
 });
-/**********  crear funcion para eliminar un la tarea clickeada en el arreglo **********/
-
-/**********  escuchar de manera dinamica el boton para eliminar de manera correta la tarea seleccionada **********/
-//  document.querySelectorAll("button").forEach((element) => {
-//   element.addEventListener("click", (e) => {
-
-//     deleteAssignment();
-//   });
-// });  
