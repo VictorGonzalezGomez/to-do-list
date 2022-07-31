@@ -41,6 +41,7 @@ function renderTasks() {
   });
   containerTask.innerHTML = html;
   renderTotalTasks();
+  renderTotalFinishTask()
 }
 /**********  insertar las nuevas tarreas en el arreglo y renderiza el nuevo elemento dentro del html **********/
 function addTask() {
@@ -61,7 +62,7 @@ function finishTask(id) {
       return;
     }
   });
-  renderTotalFinishTask();
+  renderTasks();
 }
 /**********  funcion encargada de contar el numero total de tareas e insertar dicho numero en el html **********/
 function renderTotalFinishTask() {
@@ -80,3 +81,4 @@ renderTasks();
 buttonAdd.addEventListener("click", () => {
   addTask();
 });
+ 
