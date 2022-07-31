@@ -12,28 +12,31 @@
     <h1>To Do List</h1>
     <hr>
     <p>Nueva tarea</p>
-    <input type="text" name="" id="getAssignment" class="getAssingment">
+    <input type="text" name="" id="nameAssignment" class="getAssingment">
     <button id="addAssingment">agregar</button>
 
     <div class="container">
       <table class="numAssignment">
         <tr>
           <th>total:</th>
-          <th>0</th>
+          <th id="totalAssignmets"></th>
         </tr>
         <tr>
           <th>realizadas:</th>
-          <th>0</th>
+          <th id="totalFinishAssignments">0</th>
         </tr>
       </table>
-
-      <table id="assignmentsContainer">
+    <div>
+      <table >
         <tr class="assignments">
           <th>id</th>
           <th>tarea</th>
         </tr>
-        
       </table>
+      <table id="assignmentsContainer">
+
+      </table >
+  </div>
     </div>
 <script src="assets/js/main.js" type="module"></script>
 </body>
