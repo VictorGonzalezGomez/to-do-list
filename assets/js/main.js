@@ -1,35 +1,59 @@
+/**********  variables globales **********/
+const buttonAdd = document.getElementById("addTask");
+const containerTask = document.getElementById("taskContainer");
+const totalTasks = document.getElementById("totaltasks");
+const totalFinishTasks = document.getElementById("totalFinishTasks");
+/**********  arreglo de tareas por default **********/
 let tasks = [
   {
     id: "1",
-    name: "ejemplo de tarea 1",
+    name: "Ejemplo de tarea 1",
     state: false,
   },
   {
     id: "2",
-    name: " ejemplo de tarea 2",
-    state: false,
-  },
+    name: " Ejemplo de tarea 2",    
+    state: false,                     
+  },                                   
   {
     id: "3",
-    name: "ejemplo de tarea 3",
+    name: "Ejemplo de tarea 3",
     state: false,
   },
 ];
-/**********  variables globales **********/
-const buttonAdd = document.getElementById("addAssingment");
-const containerAssignments = document.getElementById("assignmentsContainer");
-const totalAssingment = document.getElementById("totalAssignmets");
-const totalFinishAssignments = document.getElementById("totalFinishAssignments");
-/**********  generar id **********/
+/**********  generardor de ids **********/
 function idGenerator() {
   return parseInt(Math.random() * new Date().getUTCMilliseconds());
 }
-
-function deleteAssignment(id) {
-  const newTasks = tasks.filter((task) => task.id != id);
-  tasks = newTasks;
+/**********  funcion encargada de renderizar todos los elementos de manera dinamicas dentro de html **********/
+function renderTasks() {
+  let html = "";
+  tasks.map((task) => {
+    html += `<tr class="tasks" >
+    <th>${task.id}</th>
+    <th>${task.name} 
+      <input type="checkbox" onclick="finishTask(${task.id})" ${
+      task.state ? `checked` : ""
+    } />    
+      <button onclick="deleteTask(${task.id})"> X </button>
+    </th>
+  </tr>`;
+  });
+  containerTask.innerHTML = html;
+  renderTotalTasks();
+}
+/**********  insertar las nuevas tarreas en el arreglo y renderiza el nuevo elemento dentro del html **********/
+function addTask() {
+  let nameTask = document.getElementById("nameTask").value;
+  const newtask = { id: idGenerator(), name: nameTask };
+  tasks.push(newtask);
   renderTasks();
 }
+/**********  funcion encargada de renderizar el total de tareas *********/
+function renderTotalTasks() {
+  totalTasks.innerHTML = `<th id="totalTasks">${tasks.length}</th>`;
+}
+/**********  funcion encargada de cambiar el estado del check box de dentro del arreglo y sumar a tareas realizadas **********/
 function finishTask(id) {
   tasks.map((task) => {
     if (task.id == id) {
@@ -37,45 +61,22 @@ function finishTask(id) {
       return;
     }
   });
-  renderTasks();
-}
-
-function renderTotalFinishTask() {
-  const totalFinishTask = tasks.filter((task) => (task.state == true));
-  totalFinishAssignments.innerHTML = `<th id="totalFinishAssignments">${totalFinishTask.length}</th>`;
-}
-/**********  crear funcion para tomar los elementos por default del arreglo y enviarlos a la funcion addAssignment **********/
-function renderTasks() {
-  let html = "";
-  tasks.map((task) => {
-    html += `<tr class="assignments" >
-    <th>${task.id}</th>
-    <th>${task.name} 
-      <input type="checkbox" onclick="finishTask(${task.id})" ${
-      task.state ? `checked` : ""
-    } />    
-      <button onclick="deleteAssignment(${task.id})"> x </button>
-    </th>
-  </tr>`;
-  });
-  containerAssignments.innerHTML = html;
-  renderTotalTasks();
   renderTotalFinishTask();
 }
-renderTasks();
-
-/**********  crear funcion para insertar los nuevos elementos al arreglo **********/
-function addTask() {
-  let nameTask = document.getElementById("nameAssignment").value;
-  const newtask = { id: idGenerator(), name: nameTask };
-  tasks.push(newtask);
+/**********  funcion encargada de contar el numero total de tareas e insertar dicho numero en el html **********/
+function renderTotalFinishTask() {
+  const totalFinishTask = tasks.filter((task) => (task.state == true));
+  totalFinishTasks.innerHTML = `<th id="totalFinishTasks">${totalFinishTask.length}</th>`;
+}
+/**********  funcion encargada de eliminar los elementos del arreglo y de renderizar el nuevo arreglo sin la tarea selecionada **********/
+function deleteTask(id) {
+  const newTasks = tasks.filter((task) => task.id != id);
+  tasks = newTasks;
   renderTasks();
 }
-/**********  crear funcion para contar e insertar el total de tareas realizadas *********/
-function renderTotalTasks() {
-  totalAssingment.innerHTML = `<th id="totalAssignmets">${tasks.length}</th>`;
-}
-/**********  escuchar el boton agregar y realizar la operacion de insertar la nueva tarea en html **********/
+/********** renderizado inicial de los por default en html **********/
+renderTasks();
+/**********  evento que desencadena el agregado de tareas tanto en el arreglo como en html **********/
 buttonAdd.addEventListener("click", () => {
   addTask();
 });
