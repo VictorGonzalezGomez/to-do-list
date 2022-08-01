@@ -46,6 +46,11 @@ function renderTasks() {
 /**********  insertar las nuevas tarreas en el arreglo y renderiza el nuevo elemento dentro del html **********/
 function addTask() {
   let nameTask = document.getElementById("nameTask").value;
+  /********** validacion que el nombre de la tarea haya sido agregado **********/
+  if (isEmpty(nameTask)){
+    alert("Nombre de la tarea esta vacion");
+    return;
+  }
   const newtask = { id: idGenerator(), name: nameTask };
   tasks.push(newtask);
   renderTasks();
@@ -75,10 +80,13 @@ function deleteTask(id) {
   tasks = newTasks;
   renderTasks();
 }
+/********** funcion que determina que el input de usuario este vacio **********/
+function isEmpty(value) {
+  return value.length === 0;
+}
 /********** renderizado inicial de los por default en html **********/
 renderTasks();
 /**********  evento que desencadena el agregado de tareas tanto en el arreglo como en html **********/
 buttonAdd.addEventListener("click", () => {
   addTask();
 });
- 
